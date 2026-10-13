@@ -1,16 +1,7 @@
 import sqlite3
 
 from errors import LibraryError
-
-data = {
-    "978-0-14-118776-1": {
-        "title": "asdf",
-        "author": "asdf",
-        "isbn": "978-0-14-118776-1",
-        "price": 23.99,
-        "quantity_in_stock": 30,
-    }
-}
+from initial_data import initial_data
 
 
 class Database:
@@ -21,8 +12,10 @@ class Database:
         self.cur = self.conn.cursor()
         if not self._is_table_created():
             self.create_table()
-        fetched_data = self.fetch_all_data()
-        self.data = self._parse_from_db(data=fetched_data)
+            self.data = initial_data
+        else:
+            fetched_data = self.fetch_all_data()
+            self.data = self._parse_from_db(data=fetched_data)
 
     def __del__(self):
         self.sync()
